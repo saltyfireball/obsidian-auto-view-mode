@@ -1,0 +1,29 @@
+{
+	"name": "obsidian-auto-view-mode",
+	"version": "1.0.0",
+	"description": "Automatically switch Obsidian view mode (Reading, Source, Live Preview) based on a frontmatter key in your notes.",
+	"main": "main.js",
+	"type": "module",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"keywords": [
+		"obsidian",
+		"plugin",
+		"frontmatter",
+		"view-mode",
+		"auto-switch"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^16.11.6",
+		"esbuild": "0.25.5",
+		"tslib": "2.4.0",
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"obsidian": "latest"
+	}
+}
