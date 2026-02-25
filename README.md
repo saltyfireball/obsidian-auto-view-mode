@@ -19,7 +19,7 @@ An [Obsidian](https://obsidian.md) plugin that automatically switches between Re
 
 ### From Obsidian Community Plugins
 
-**Might not be submitted yet**
+**Might not be approved yet**
 
 1. Open **Settings** > **Community Plugins**
 2. Search for **Auto View Mode**
