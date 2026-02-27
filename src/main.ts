@@ -52,7 +52,7 @@ export default class AutoViewModePlugin extends Plugin {
 			const currentState =
 				typeof view.getState === "function" ? view.getState() : {};
 			const newState = { ...currentState, ...stateUpdate };
-			view.setState(newState, { history: false } as any);
+			void view.setState(newState, { history: false });
 		}, 100);
 	}
 
@@ -78,10 +78,10 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Auto View Mode" });
+		new Setting(containerEl).setName("Auto view mode").setHeading();
 
 		containerEl.createEl("p", {
-			text: "Automatically switch between Reading View, Source Mode, and Live Preview when opening a note, based on a frontmatter key.",
+			text: "Automatically switch between reading view, source mode, and live preview when opening a note, based on a frontmatter key.",
 			cls: "setting-item-description",
 		});
 
@@ -101,7 +101,7 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 					}),
 			);
 
-		containerEl.createEl("h3", { text: "Usage" });
+		new Setting(containerEl).setName("Usage").setHeading();
 
 		const usageDesc = containerEl.createEl("div", {
 			cls: "setting-item-description",
@@ -117,9 +117,9 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 		codeBlock.createEl("code", {
 			text:
 				"---\n" +
-				key + ": preview   # Reading View\n" +
-				key + ": source    # Source Mode\n" +
-				key + ": edit      # Live Preview\n" +
+				key + ": preview   # Reading view\n" +
+				key + ": source    # Source mode\n" +
+				key + ": edit      # Live preview\n" +
 				"---",
 		});
 
@@ -129,13 +129,13 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 
 		const list = usageDesc.createEl("ul");
 		list.createEl("li", {
-			text: '"preview" or "reading" -- opens in Reading View',
+			text: '"preview" or "reading" -- opens in reading view',
 		});
 		list.createEl("li", {
-			text: '"source" -- opens in Source Mode',
+			text: '"source" -- opens in source mode',
 		});
 		list.createEl("li", {
-			text: '"edit" or "live" -- opens in Live Preview (editor mode)',
+			text: '"edit" or "live" -- opens in live preview (editor mode)',
 		});
 	}
 }
