@@ -30,7 +30,7 @@ export default class AutoViewModePlugin extends Plugin {
 		const key = this.settings.frontmatterKey.trim();
 		if (!key) return;
 
-		const value = cache?.frontmatter?.[key];
+		const value: unknown = cache?.frontmatter?.[key];
 		if (typeof value !== "string") return;
 
 		const modeMap: Record<string, { mode: string; source?: boolean }> = {
@@ -44,7 +44,7 @@ export default class AutoViewModePlugin extends Plugin {
 		const stateUpdate = modeMap[value.trim().toLowerCase()];
 		if (!stateUpdate) return;
 
-		setTimeout(() => {
+		window.setTimeout(() => {
 			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 			if (!view) return;
 			if (view.file?.path !== file.path) return;
@@ -57,8 +57,8 @@ export default class AutoViewModePlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		const data = await this.loadData();
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, data);
+		const data = (await this.loadData()) as Partial<AutoViewModeSettings> | null;
+		this.settings = { ...DEFAULT_SETTINGS, ...(data ?? {}) };
 	}
 
 	async saveSettings() {
@@ -78,13 +78,6 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		new Setting(containerEl).setName("Auto view mode").setHeading();
-
-		containerEl.createEl("p", {
-			text: "Automatically switch between reading view, source mode, and live preview when opening a note, based on a frontmatter key.",
-			cls: "setting-item-description",
-		});
-
 		new Setting(containerEl)
 			.setName("Frontmatter key")
 			.setDesc(
@@ -93,7 +86,7 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 			)
 			.addText((text) =>
 				text
-					.setPlaceholder("auto-view-mode")
+					.setPlaceholder("e.g. auto-view-mode") // eslint-disable-line obsidianmd/ui/sentence-case
 					.setValue(this.plugin.settings.frontmatterKey)
 					.onChange(async (value) => {
 						this.plugin.settings.frontmatterKey = value;
