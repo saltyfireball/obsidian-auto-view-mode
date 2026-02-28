@@ -86,7 +86,7 @@ class AutoViewModeSettingTab extends PluginSettingTab {
 			)
 			.addText((text) =>
 				text
-					.setPlaceholder("e.g. auto-view-mode") // eslint-disable-line obsidianmd/ui/sentence-case
+					.setPlaceholder("E.g., auto-view-mode")
 					.setValue(this.plugin.settings.frontmatterKey)
 					.onChange(async (value) => {
 						this.plugin.settings.frontmatterKey = value;
