@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-auto-view-mode",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"description": "Automatically switch Obsidian view mode (Reading, Source, Live Preview) based on a frontmatter key in your notes.",
 	"main": "main.js",
 	"type": "module",
