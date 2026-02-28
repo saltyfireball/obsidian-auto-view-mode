@@ -1,7 +1,7 @@
 {
 	"id": "auto-view-mode",
 	"name": "Auto View Mode",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"minAppVersion": "1.0.0",
 	"description": "Automatically switch between Reading View, Source Mode, and Live Preview based on a frontmatter key in your notes.",
 	"author": "saltyfireball",
