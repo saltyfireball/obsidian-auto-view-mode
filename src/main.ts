@@ -1,4 +1,4 @@
-import { MarkdownView, Plugin, PluginSettingTab, App, Setting, TFile } from "obsidian";
+import { MarkdownView, Plugin, PluginSettingTab, App, Setting, TFile, WorkspaceLeaf } from "obsidian";
 
 interface AutoViewModeSettings {
 	frontmatterKey: string;
@@ -10,6 +10,7 @@ const DEFAULT_SETTINGS: AutoViewModeSettings = {
 
 export default class AutoViewModePlugin extends Plugin {
 	settings!: AutoViewModeSettings;
+	private appliedFiles = new Set<string>();
 
 	async onload() {
 		await this.loadSettings();
@@ -23,9 +24,38 @@ export default class AutoViewModePlugin extends Plugin {
 				}
 			}),
 		);
+
+		// Remove tracking when a note is closed so reopening it re-applies the mode
+		this.registerEvent(
+			this.app.workspace.on("layout-change", () => {
+				this.pruneClosedFiles();
+			}),
+		);
+
+		this.register(() => {
+			this.appliedFiles.clear();
+		});
+	}
+
+	private pruneClosedFiles(): void {
+		if (this.appliedFiles.size === 0) return;
+		const openPaths = new Set<string>();
+		this.app.workspace.iterateAllLeaves((leaf: WorkspaceLeaf) => {
+			if (leaf.view instanceof MarkdownView && leaf.view.file) {
+				openPaths.add(leaf.view.file.path);
+			}
+		});
+		for (const path of this.appliedFiles) {
+			if (!openPaths.has(path)) {
+				this.appliedFiles.delete(path);
+			}
+		}
 	}
 
 	private applyViewMode(file: TFile): void {
+		// Only apply on first open, not when refocusing an already-open note
+		if (this.appliedFiles.has(file.path)) return;
+
 		const cache = this.app.metadataCache.getFileCache(file);
 		const key = this.settings.frontmatterKey.trim();
 		if (!key) return;
@@ -43,6 +73,8 @@ export default class AutoViewModePlugin extends Plugin {
 
 		const stateUpdate = modeMap[value.trim().toLowerCase()];
 		if (!stateUpdate) return;
+
+		this.appliedFiles.add(file.path);
 
 		window.setTimeout(() => {
 			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
