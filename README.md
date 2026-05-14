@@ -21,6 +21,8 @@ An [Obsidian](https://obsidian.md) plugin that automatically switches between Re
 
 This plugin is available in the official Obsidian community plugin directory. Install it from **Settings > Community plugins > Browse** and search for "Auto View Mode" or "Auto View Mode by saltyfireball".
 
+Community plugin page: <https://community.obsidian.md/plugins/auto-view-mode>
+
 ## Usage
 
 Add the frontmatter key to any note to control which view mode it opens in:

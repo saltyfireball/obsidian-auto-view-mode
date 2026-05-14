@@ -76,7 +76,7 @@ export default class AutoViewModePlugin extends Plugin {
 
 		this.appliedFiles.add(file.path);
 
-		activeWindow.setTimeout(() => {
+		window.setTimeout(() => {
 			const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 			if (!view) return;
 			if (view.file?.path !== file.path) return;
